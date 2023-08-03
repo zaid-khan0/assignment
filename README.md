@@ -1,6 +1,6 @@
 # Weather Forecast Program
 
-This is a Python program that interacts with the OpenWeatherMap API to provide weather forecast data for a specific location. 
+This is a Python program that interacts with the OpenWeatherMap API to provide hourly weather forecast data for a specific location. 
 The program allows users to query and retrieve weather-related information based on their choices.
 
 # Requirements
