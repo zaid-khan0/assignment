@@ -10,23 +10,17 @@ def get_weather_data(location):
         print("Error retrieving weather data.")
         return None
 
-def get_temperature(weather_data, date):
+def get_weather_info(weather_data, date):
+    weather_info = []
     for forecast in weather_data['list']:
         if forecast['dt_txt'].split()[0] == date:
-            return forecast['main']['temp']
-    return None
-
-def get_wind_speed(weather_data, date):
-    for forecast in weather_data['list']:
-        if forecast['dt_txt'].split()[0] == date:
-            return forecast['wind']['speed']
-    return None
-
-def get_pressure(weather_data, date):
-    for forecast in weather_data['list']:
-        if forecast['dt_txt'].split()[0] == date:
-            return forecast['main']['pressure']
-    return None
+            weather_info.append({
+                'time': forecast['dt_txt'].split()[1],
+                'temperature': forecast['main']['temp'],
+                'wind_speed': forecast['wind']['speed'],
+                'pressure': forecast['main']['pressure']
+            })
+    return weather_info
 
 def main():
     location = "London,us"
@@ -47,23 +41,29 @@ def main():
             break
         elif choice == 1:
             date = input("Enter the date (YYYY-MM-DD): ")
-            temperature = get_temperature(weather_data, date)
-            if temperature is not None:
-                print(f"Temperature on {date}: {temperature}°f")
+            weather_info = get_weather_info(weather_data, date)
+            if weather_info:
+                print(f"Weather info for {date}:")
+                for data in weather_info:
+                    print(f"Time: {data['time']} | Temperature: {data['temperature']}°C")
             else:
                 print("Weather data not available for the given date.")
         elif choice == 2:
             date = input("Enter the date (YYYY-MM-DD): ")
-            wind_speed = get_wind_speed(weather_data, date)
-            if wind_speed is not None:
-                print(f"Wind Speed on {date}: {wind_speed} m/s")
+            weather_info = get_weather_info(weather_data, date)
+            if weather_info:
+                print(f"Wind Speed on {date}:")
+                for data in weather_info:
+                    print(f"Time: {data['time']} | Wind Speed: {data['wind_speed']} m/s")
             else:
                 print("Weather data not available for the given date.")
         elif choice == 3:
             date = input("Enter the date (YYYY-MM-DD): ")
-            pressure = get_pressure(weather_data, date)
-            if pressure is not None:
-                print(f"Pressure on {date}: {pressure} hPa")
+            weather_info = get_weather_info(weather_data, date)
+            if weather_info:
+                print(f"Pressure on {date}:")
+                for data in weather_info:
+                    print(f"Time: {data['time']} | Pressure: {data['pressure']} hPa")
             else:
                 print("Weather data not available for the given date.")
         else:
